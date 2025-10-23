@@ -62,18 +62,18 @@ services:
 
 volumes:
   db-volume:
-    # driver: local
-    # driver_opts:
-    #   device: ~/data/db-data
-    #   type: none
-    #   o: bind
+    driver: local
+    driver_opts:
+      device: /home/yeonjuki/data/db-data
+      type: none
+      o: bind
 
   wp-volume:
-    # driver: local
-    # driver_opts:
-    #   device: ~/data/wp-data
-    #   type: none
-    #   o: bind
+    driver: local
+    driver_opts:
+      device: /home/yeonjuki/data/wp-data
+      type: none
+      o: bind
 
 
 networks:
