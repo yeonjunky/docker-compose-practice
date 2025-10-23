@@ -13,4 +13,13 @@ down:
 ps:
 	docker compose -f ./srcs/docker-compose.yml ps
 
-.phony: all up stop down ps
+log:
+	docker compose -f ./srcs/docker-compose.yml logs -f
+
+build:
+	docker compose -f ./srcs/docker-compose.yml up --build -d
+
+remove_volume:
+	docker volume rm srcs_wp-volume srcs_db-volume
+
+.phony: all up stop down ps build
