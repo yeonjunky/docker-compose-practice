@@ -1,64 +1,70 @@
 services:
   nginx:
+    container_name: inception-nginx
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
     image: inception-nginx
+
     networks:
       - inception
-    volumes:
-      - wp-volume:/var/www/html
-    restart: always
-    container_name: inception-nginx
     ports:
       - 80:80
       - 443:443
+    volumes:
+      - wp-volume:/var/www/html
+
+    restart: always
     
   wordpress:
     container_name: inception-wordpress
     image: wordpress:php8.1-fpm
-    restart: always
-    environment:
-      WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_DB_USER: ${WP_DB_USER}
-      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD}
-      WORDPRESS_DB_NAME: ${WP_DB_NAME}
-      WORDPRESS_TABLE_PREFIX: wp_
-    volumes:
-      - wp-volume:/var/www/html
     # build:
     #   context: ./requirements/wordpress
     #   dockerfile: Dcokerfile
     # image: inception-wordpress
 
     # image: wordpress
-    # volumes:
-    #   - wp-volume:/var/www/html
+
     networks:
       - inception
     ports:
       - 3306
       - 9000
+    volumes:
+      - wp-volume:/var/www/html
+
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: ${WP_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${WP_DB_NAME}
+      WORDPRESS_TABLE_PREFIX: wp_
+
+    restart: always
 
   mariadb:
+    container_name: inception-mariadb
     # build:
     #   context: ./requirements/mariadb
     #   dockerfile: Dockerfile
     # image: inception-mariadb
     image: mariadb
+
     networks:
       - inception
+    ports:
+      - 3306
     volumes:
       - db-volume:/var/lib/mysql
-    restart: always
-    container_name: inception-mariadb
+
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PW}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_ROOT_PW}
-    ports:
-      - 3306
+
+    restart: always
 
 volumes:
   db-volume:
