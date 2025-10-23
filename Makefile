@@ -20,6 +20,6 @@ build:
 	docker compose -f ./srcs/docker-compose.yml up --build -d
 
 remove_volume:
-	docker volume rm srcs_wp-volume srcs_db-volume
+	docker compose -f ./srcs/docker-compose.yml down -v
 
 .phony: all up stop down ps build

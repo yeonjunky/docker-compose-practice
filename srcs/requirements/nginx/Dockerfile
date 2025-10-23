@@ -24,6 +24,8 @@ RUN openssl x509 -req \
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
+WORKDIR /var/www/html
+
 EXPOSE 80 443
 
 ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
