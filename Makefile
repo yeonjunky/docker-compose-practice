@@ -25,4 +25,4 @@ build:
 remove_volume:
 	$(DC) down -v
 
-.phony: all up stop down ps build
+.phony: all up stop down ps log build remove_volume
