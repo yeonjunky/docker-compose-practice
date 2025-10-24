@@ -1,25 +1,28 @@
+COMPOSE = ./srcs/docker-compose.yml
+DC = docker compose -f $(COMPOSE)
+
 all:
 	$(MAKE) up
 
 up:
-	docker compose -f ./srcs/docker-compose.yml up -d
+	$(DC) up -d
 
 stop:
-	docker compose -f ./srcs/docker-compose.yml stop
+	$(DC) stop
 
 down:
-	docker compose -f ./srcs/docker-compose.yml down
+	$(DC) down
 
 ps:
-	docker compose -f ./srcs/docker-compose.yml ps
+	$(DC) ps
 
 log:
-	docker compose -f ./srcs/docker-compose.yml logs -f
+	$(DC) logs -f
 
 build:
-	docker compose -f ./srcs/docker-compose.yml up --build -d
+	$(DC) up --build -d
 
 remove_volume:
-	docker compose -f ./srcs/docker-compose.yml down -v
+	$(DC) down -v
 
 .phony: all up stop down ps build
