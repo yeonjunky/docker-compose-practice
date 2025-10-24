@@ -35,21 +35,21 @@ services:
       - wp-volume:/var/www/html
 
     environment:
-      WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_DB_USER: ${WP_DB_USER}
-      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD}
-      WORDPRESS_DB_NAME: ${WP_DB_NAME}
+      WORDPRESS_DB_HOST: mariadb:3306
+      # Use the same DB user/password/database as the mariadb service below
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PW}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
       WORDPRESS_TABLE_PREFIX: wp_
 
     restart: always
 
   mariadb:
     container_name: inception-mariadb
-    # build:
-    #   context: ./requirements/mariadb
-    #   dockerfile: Dockerfile
-    # image: inception-mariadb
-    image: mariadb
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    image: inception-mariadb
 
     networks:
       - inception
@@ -59,10 +59,11 @@ services:
       - db-volume:/var/lib/mysql
 
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PW}
+      # Root password (for root user)
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PW}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_ROOT_PW}
+      MYSQL_PASSWORD: ${MYSQL_PW}
 
     restart: always
 
@@ -70,14 +71,14 @@ volumes:
   db-volume:
     driver: local
     driver_opts:
-      device: /home/yeonjuki/data/db-data
+      device: ${DB_VOLUME}
       type: none
       o: bind
 
   wp-volume:
     driver: local
     driver_opts:
-      device: /home/yeonjuki/data/wp-data
+      device: ${WP_VOLUME}
       type: none
       o: bind
 
