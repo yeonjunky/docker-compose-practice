@@ -15,16 +15,19 @@ services:
       - wp-volume:/var/www/html
 
     restart: always
+
+    depends_on:
+      - wordpress
     
   wordpress:
     container_name: inception-wordpress
-    image: wordpress:php8.1-fpm
-    # build:
-    #   context: ./requirements/wordpress
-    #   dockerfile: Dcokerfile
-    # image: inception-wordpress
-
-    # image: wordpress
+    # image: wordpress:php8.1-fpm
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+      args:
+        WORDPRESS_VERSION: ${WP_VERSION}
+    image: inception-wordpress
 
     networks:
       - inception
@@ -41,6 +44,7 @@ services:
       WORDPRESS_DB_PASSWORD: ${MYSQL_PW}
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
       WORDPRESS_TABLE_PREFIX: wp_
+      WORDPRESS_VERSION: ${WP_VERSION}
 
     restart: always
 
