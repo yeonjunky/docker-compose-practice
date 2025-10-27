@@ -16,8 +16,8 @@ services:
 
     restart: always
 
-    # depends_on:
-    #   - wordpress
+    depends_on:
+      - wordpress
     
   wordpress:
     container_name: inception-wordpress
@@ -46,6 +46,9 @@ services:
       WORDPRESS_VERSION: ${WP_VERSION}
 
     restart: always
+
+    depends_on:
+      - mariadb
 
   mariadb:
     container_name: inception-mariadb

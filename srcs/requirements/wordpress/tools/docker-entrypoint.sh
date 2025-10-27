@@ -3,19 +3,14 @@ set -e
 
 echo '[Entrypoint] checking /var/www/html'
 
-# /var/www/html이 비어 있으면 이미지에 보관된 파일 복사
-if [ ! -f /var/www/html/index.php ]; then
-  if [ ! -f /tmp/wordpress.tar.gz ]; then
-    echo '[Entrypoint] /tmp/wordpress.tar.gz file is missing. Downloading file...'
-    wget -q -O /tmp/wordpress.tar.gz "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"
-  fi
-  echo '[Entrypoint] /var/www/html is empty, unzip wordpress files...'
-  tar -xzf /tmp/wordpress.tar.gz -C /var/www/html --strip-components=1 \
-    && rm /tmp/wordpress.tar.gz \
-    && chown -R www-data:www-data /var/www/html
-  cp /tmp/wp-config/wp-config.php /var/www/html
-  chown -R www-data:www-data /var/www/html || true
+if ! wp core is-installed 2>/dev/null; then
+  wp core install --url=yeonjuki.42.fr --title=yeonjuki-inception --admin_user=yeonjunky --admin_password=password \
+    --admin_email=yeonjunky@42.fr --skip-email --allow-root
+  # cp ./wp-config.php /var/www/html/
+  chown -R www-data:www-data /var/www/html
 fi
+
+wp user create yeonjuki yeonjuki@42.fr --role=administrator --user_pass=password --allow-root
 
 echo '[Entrypoint] ended'
 

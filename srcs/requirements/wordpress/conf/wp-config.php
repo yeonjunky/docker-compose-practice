@@ -18,6 +18,11 @@
  * @package WordPress
  */
 
+define( 'WP_DEBUG', true );
+define( 'WP_DEBUG_LOG', '/dev/stdout' );
+# display error on page
+define( 'WP_DEBUG_DISPLAY', true );
+
 if (!function_exists('getenv_docker')) {
 	function getenv_docker($env, $default) {
 		if ($fileEnv = getenv($env, "_FILE")) {
@@ -34,16 +39,21 @@ if (!function_exists('getenv_docker')) {
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', getenv_docker('WORDPRESS_DB_NAME', 'wordpress') );
+// define( 'DB_NAME', getenv_docker('WORDPRESS_DB_NAME', 'wordpress') );
+// define( 'DB_NAME', 'wordpress' );
+define( 'DB_NAME', 'wordpress' );
 
 /** Database username */
-define( 'DB_USER', getenv_docker('WORDPRESS_DB_USER', 'wordpress') );
+// define( 'DB_USER', getenv_docker('WORDPRESS_DB_USER', 'wordpress') );
+define( 'DB_USER', 'wordpress' );
 
 /** Database password */
-define( 'DB_PASSWORD', getenv_docker('WORDPRESS_DB_PASSWORD', 'password') );
+// define( 'DB_PASSWORD', getenv_docker('WORDPRESS_DB_PASSWORD', 'password') );
+define( 'DB_PASSWORD',  'password' );
 
 /** Database hostname */
-define( 'DB_HOST', getenv_docker('WORDPRESS_DB_HOST', 'mariadb') );
+// define( 'DB_HOST', getenv_docker('WORDPRESS_DB_HOST', 'mariadb') );
+define( 'DB_HOST', 'mariadb:3306' );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8mb4' );
@@ -85,7 +95,8 @@ define( 'NONCE_SALT',       '$0Z%TDZ }{<4XgG/Q_USMFZgcBGX0O i9NZ8fjtQKc/H5]7#C=^
  *
  * @link https://developer.wordpress.org/advanced-administration/wordpress/wp-config/#table-prefix
  */
-$table_prefix = getenv_docker('WORDPRESS_TABLE_PREFIX', 'wp_');
+// $table_prefix = getenv_docker('WORDPRESS_TABLE_PREFIX', 'wp_');
+$table_prefix = 'wp_';
 
 /**
  * For developers: WordPress debugging mode.
@@ -99,11 +110,8 @@ $table_prefix = getenv_docker('WORDPRESS_TABLE_PREFIX', 'wp_');
  *
  * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
  */
-define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
-
-
 
 /* That's all, stop editing! Happy publishing. */
 
