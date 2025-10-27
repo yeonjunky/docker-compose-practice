@@ -16,12 +16,11 @@ services:
 
     restart: always
 
-    depends_on:
-      - wordpress
+    # depends_on:
+    #   - wordpress
     
   wordpress:
     container_name: inception-wordpress
-    # image: wordpress:php8.1-fpm
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
