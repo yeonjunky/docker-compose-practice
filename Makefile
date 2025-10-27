@@ -2,10 +2,13 @@ COMPOSE = ./srcs/docker-compose.yml
 DC = docker compose -f $(COMPOSE)
 
 all:
-	$(MAKE) up \
+	$(MAKE) up
 
 up:
 	$(DC) up -d
+
+start:
+	$(DC) start
 
 stop:
 	$(DC) stop
@@ -28,4 +31,5 @@ remove_volume:
 restart:
 	$(DC) restart
 
-.phony: all up stop down ps log build remove_volume restart
+.phony: all up start stop down ps log build remove_volume restart
+
