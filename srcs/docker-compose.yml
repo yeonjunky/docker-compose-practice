@@ -9,7 +9,6 @@ services:
     networks:
       - inception
     ports:
-      - 80:80
       - 443:443
     volumes:
       - wp-volume:/var/www/html
