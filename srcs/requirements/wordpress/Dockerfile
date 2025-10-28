@@ -24,7 +24,6 @@ RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
 WORKDIR /var/www/html
 
-# USER www-data
 RUN wp core download --allow-root
 ENTRYPOINT [ "docker-entrypoint.sh" ]
 
