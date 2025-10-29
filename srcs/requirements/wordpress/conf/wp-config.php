@@ -22,6 +22,9 @@ define( 'WP_DEBUG', true );
 define( 'WP_DEBUG_LOG', '/dev/stdout' );
 define( 'WP_DEBUG_DISPLAY', true );
 
+define('WP_HOME', 'https://localhost:8080');
+define('WP_SITEURL', 'https://localhost:8080');
+
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', getenv('WORDPRESS_DB_NAME') );
