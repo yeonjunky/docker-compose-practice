@@ -70,6 +70,20 @@ services:
 
     restart: always
 
+  ftp:
+    container_name: inception-ftp
+    build:
+      context: ./requirements/bonus/ftp
+      dockerfile: Dockerfile
+    image: inception-ftp
+
+    networks:
+      - inception
+    ports:
+
+    volumes:
+      - wp-volume:/var/www/html
+
 volumes:
   db-volume:
     driver: local
