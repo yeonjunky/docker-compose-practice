@@ -30,7 +30,6 @@ services:
     networks:
       - inception
     ports:
-      - 3306
       - 9000
     volumes:
       - wp-volume:/var/www/html
@@ -77,12 +76,22 @@ services:
       dockerfile: Dockerfile
     image: inception-ftp
 
-    networks:
-      - inception
     ports:
+      - 0.0.0.0:20:20
+      - 0.0.0.0:21:21
+      - 21100-21110:21100-21110
 
     volumes:
       - wp-volume:/var/www/html
+    
+    environment:
+      FTP_USER: ${FTP_USER}
+      FTP_PASS: ${FTP_PASS}
+    
+    depends_on:
+      - wordpress
+
+    restart: always
 
 volumes:
   db-volume:
