@@ -41,11 +41,13 @@ services:
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
       WORDPRESS_TABLE_PREFIX: ${WP_TABLE_PREFIX}
       WORDPRESS_VERSION: ${WP_VERSION}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
 
     restart: always
 
     depends_on:
       - mariadb
+      - redis
 
   mariadb:
     container_name: inception-mariadb
@@ -91,6 +93,37 @@ services:
     depends_on:
       - wordpress
 
+    restart: always
+  
+  # adminer:
+  #   container_name: inception-adminer
+  #   build:
+  #     context: ./requirements/bonus/adminer
+  #     dockerfile: Dockerfile
+  #   image: inception-adminer
+
+  #   ports:
+  #     - 8080:8080
+    
+  #   depends_on:
+  #     - mariadb
+    
+  #   restart: always
+
+  redis:
+    container_name: inception-redis
+    build:
+      context: ./requirements/bonus/redis
+      dockerfile: Dockerfile
+
+    networks:
+      - inception
+    ports:
+      - 6379
+    
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    
     restart: always
 
 volumes:

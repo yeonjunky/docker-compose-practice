@@ -95,6 +95,20 @@ $table_prefix = getenv('WORDPRESS_TABLE_PREFIX');
 
 /* Add any custom values between this line and the "stop editing" line. */
 
+/* redis configs */
+define( 'WP_CACHE', true );
+define( 'WP_REDIS_HOST', 'redis' );
+define( 'WP_REDIS_PORT', 6379 );
+
+define( 'WP_REDIS_PREFIX', getenv('WORDPRESS_TABLE_PREFIX'));
+define( 'WP_REDIS_DATABASE', 0 );
+
+define( 'WP_REDIS_TIMEOUT', 1);
+define( 'WP_REDIS_READ_TIMEOUT', 1);
+
+define( 'WP_REDIS_CLIENT', 'predis' );
+define( 'WP_REDIS_PASSWORD', getenv('REDIS_PASSWORD'));
+
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */

@@ -13,8 +13,16 @@ if ! wp core is-installed --allow-root 2>/dev/null; then
   wp core download --force --version=${WORDPRESS_VERSION} --allow-root
   wp core install --url='http://yeonjuki.42.fr' --title=yeonjuki-inception --admin_user=yeonjunky --admin_password=password \
     --admin_email=yeonjunky@42.fr --skip-email --allow-root
-  wp user create yeonjuki yeonjuki@42.fr --role=author --user_pass=password --allow-root
+  if ! wp user get yeonjuki --allow-root; then
+    echo '[Entrypoint] normal user is missing. creating...'
+    wp user create yeonjuki yeonjuki@42.fr --role=author --user_pass=password --allow-root
+  fi
   chown -R www-data:www-data /var/www/html
+fi
+
+if ! wp plugin is-installed redis-cache --allow-root; then
+  echo '[Entrypoint] Redis object cache plugin is missing. installing...'
+  wp plugin install redis-cache --allow-root --activate
 fi
 
 echo '[Entrypoint] ended'
