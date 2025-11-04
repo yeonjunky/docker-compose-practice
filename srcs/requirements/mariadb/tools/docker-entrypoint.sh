@@ -32,6 +32,10 @@ mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON *.* TO '$MYS
 mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';" && \
 mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;" 
 
+mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE USER IF NOT EXISTS '$ADMINER_USER'@'%' IDENTIFIED BY '$ADMINER_PASSWORD';" && \
+mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON *.* TO '$ADMINER_USER'@'%' WITH GRANT OPTION;" && \
+mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
+
 echo "[Entrypoint] Initialization complete. Restarting MariaDB in foreground."
 echo "[Entrypoint] Stopping temporary MariaDB (started with --skip-networking)..."
 # Try a graceful shutdown first, fall back to killing the background process if needed

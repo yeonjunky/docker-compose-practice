@@ -68,6 +68,8 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PW}
+      ADMINER_USER: ${ADMINER_USER}
+      ADMINER_PASSWORD: ${ADMINER_PASSWORD}
 
     restart: always
 
@@ -95,20 +97,27 @@ services:
 
     restart: always
   
-  # adminer:
-  #   container_name: inception-adminer
-  #   build:
-  #     context: ./requirements/bonus/adminer
-  #     dockerfile: Dockerfile
-  #   image: inception-adminer
+  adminer:
+    container_name: inception-adminer
+    build:
+      context: ./requirements/bonus/adminer
+      dockerfile: Dockerfile
+    image: inception-adminer
 
-  #   ports:
-  #     - 8080:8080
+    networks:
+      - inception
+    ports:
+      - 8080:8080
+
+    environment:
+      ADMINER_VERSION: ${ADMINER_VERSION}
+      # ADMINER_USER: ${ADMINER_USER}
+      # ADMINER_PASSWORD: ${ADMINER_PASSWORD}
     
-  #   depends_on:
-  #     - mariadb
+    depends_on:
+      - mariadb
     
-  #   restart: always
+    restart: always
 
   redis:
     container_name: inception-redis
