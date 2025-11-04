@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Resume — Yeonjun Kim</title>
+    <style>
+        :root {
+            --fg: #111;
+            --muted: #555;
+            --accent: #0b5fff;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            color: var(--fg);
+            margin: 0;
+        }
+
+        .wrap {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        header h1 {
+            margin: 0 0 4px;
+            font-size: 32px;
+        }
+
+        header .meta {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        h2 {
+            margin: 28px 0 8px;
+            font-size: 18px;
+            letter-spacing: .2px;
+        }
+
+        .sec {
+            margin-top: 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 6px 12px;
+        }
+
+        .item h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .item .sub {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        ul {
+            margin: 8px 0 0 18px;
+        }
+
+        li {
+            margin: 4px 0;
+        }
+
+        .tags {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        footer {
+            margin-top: 28px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <h1>Yeonjun Kim</h1>
+            <div class="meta">
+                <span>[Gyeongsan, South Korea]</span> ·
+                <a href="mailto:[yeonjuki@student.42gyengsan.kr]">[yeonjuki@student.42gyeongsan.kr]</a> ·
+                <a href="[https://github.com/yeonjunky]">GitHub</a> ·
+            </div>
+        </header>
+
+        <section class="sec">
+            <h2>Summary</h2>
+            <p>Backend developer with experience building RESTful APIs using Python, Django, and Django REST framework.
+                Strong foundations in data structures and algorithms through competitive programming (Baekjoon Gold 1).
+                Interested in robust APIs, clean schema design, and performance.</p>
+        </section>
+
+        <section class="sec">
+            <h2>Skills</h2>
+            <div class="grid">
+                <div>Languages</div>
+                <div>Python, C, C++</div>
+                <div>Frameworks</div>
+                <div>Django, Django REST framework</div>
+                <div>Databases</div>
+                <div>MariaDB/MySQL</div>
+                <div>Caching/Messaging</div>
+                <div>Redis (object cache)</div>
+                <div>Infra</div>
+                <div>Docker, Linux, GCP</div>
+                <div>Tools</div>
+                <div>Git, WP-CLI</div>
+                <div>Concepts</div>
+                <div>REST API design, auth, validation, testing</div>
+            </div>
+        </section>
+
+        <section class="sec">
+            <h2>Experience</h2>
+            <div class="item">
+                <h3>Bargain Recommendation Service for Soldiers — Backend Developer (Team)</h3>
+                <div class="sub">[Kakao, Goorm Strengthen AI and SW capabilities for military personnel
+                    contest/MiliDeal] · [09 2023] — [10 2023]</div>
+                <ul>
+                    <li>Designed and implemented RESTful backend APIs with Python, Django, and Django REST framework.
+                    </li>
+                    <li>Modeled domain entities and relationships; wrote serializers, viewsets, and validation.</li>
+                    <li>Implemented pagination, filtering, and error handling for consistent API responses.</li>
+                    <li>Wrote basic unit/integration tests and managed environment/config via Goorm IDE service.</li>
+                </ul>
+                <div class="tags">Stack: Python, Django, DRF, MongoDB, Linux</div>
+            </div>
+        </section>
+
+        <section class="sec">
+            <h2>Competitive Programming</h2>
+            <div class="item">
+                <h3>Baekjoon Online Judge</h3>
+                <div class="sub">Solved 267 problems · Tier: Gold 1</div>
+                <ul>
+                    <li>Practiced algorithms and data structures (graphs, DP, greedy, trees, implementation).</li>
+                    <li>Consistently optimized solutions for time and space complexity.</li>
+                </ul>
+                <div class="tags">Profile: <a
+                        href="[https://www.acmicpc.net/user/yeonjunky]">[acmicpc.net/user/yeonjunky]</a></div>
+            </div>
+        </section>
+
+        <section class="sec">
+            <h2>Education</h2>
+            <h3>École 42 — 42 Gyeongsan</h3>
+            <div class="sub">Common Core · [10. 2024] — Present</div>
+            <h2>Projects</h2>
+
+            <div class="item">
+                <h3>minishell — Bash-like Shell (C)</h3>
+                <ul>
+                    <li>Implemented a POSIX-like shell with parsing (quotes, env expansion), pipelines, redirections (>,
+                        >>, <, heredoc).</li>
+                    <li>Built-in commands: cd, echo, env, export, unset, pwd, exit; correct exit code propagation.</li>
+                    <li>Signal handling (SIGINT/SIGQUIT) with readline; proper TTY behavior and Ctrl-D EOF handling.
+                    </li>
+                    <li>Process management: fork/exec for external cmds, pipe chaining, descriptor lifecycle, no fd
+                        leaks.</li>
+                </ul>
+                <div class="tags">C, readline, processes, pipes, signals, parsers, memory management</div>
+            </div>
+
+            <div class="item">
+                <h3>philosophers — Dining Philosophers (C, pthreads)</h3>
+                <ul>
+                    <li>Modeled N philosophers with threads and mutex-protected forks; avoided deadlocks and starvation.
+                    </li>
+                    <li>Timing-accurate state machine (think/eat/sleep) with millisecond precision and monitor for death
+                        detection.</li>
+                    <li>Deterministic logging with write locks; zero data races under stress (tsan/valgrind clean).</li>
+                </ul>
+                <div class="tags">C, pthreads, mutexes, timing, concurrency, synchronization</div>
+            </div>
+
+            <div class="item">
+                <h3>miniRT — Minimal Ray Tracer (C, MiniLibX)</h3>
+                <ul>
+                    <li>Ray casting with camera transforms; primitives: sphere, plane, cylinder; AABB-based hit tests.
+                    </li>
+                    <li>Phong lighting (ambient/diffuse/specular), hard shadows; basic reflections; configurable scene
+                        parser.</li>
+                    <li>Image output via MiniLibX; numeric stability and normalized vector math utilities.</li>
+                </ul>
+                <div class="tags">C, linear algebra, rendering, parsing, MiniLibX</div>
+            </div>
+    </div>
+    </section>
+
+    <footer>
+        References available upon request.
+    </footer>
+    </div>
+</body>
+
+</html>
