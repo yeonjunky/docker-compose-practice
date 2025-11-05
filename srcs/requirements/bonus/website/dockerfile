@@ -1,3 +1,10 @@
 FROM debian:bookworm
 
-RUN apt-get update && apt-get install
+RUN apt-get update && apt-get install python3 -y
+
+RUN mkdir -p /var/www/html
+COPY resume.html /var/www/html/index.html
+
+WORKDIR /var/www/html
+
+CMD [ "python3", "-m", "http.server", "8082" ]
