@@ -4,6 +4,7 @@ services:
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
+    image: inception/nginx:v1
 
     networks:
       - inception
@@ -24,6 +25,7 @@ services:
       dockerfile: Dockerfile
       args:
         WORDPRESS_VERSION: ${WP_VERSION}
+    image: inception/wordpress:v1
 
     networks:
       - inception
@@ -52,6 +54,7 @@ services:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
+    image: inception/mariadb:v1
 
     networks:
       - inception
@@ -75,6 +78,7 @@ services:
     build:
       context: ./requirements/bonus/ftp
       dockerfile: Dockerfile
+    image: inception/ftp:v1
 
     ports:
       - 0.0.0.0:20:20
@@ -98,6 +102,7 @@ services:
     build:
       context: ./requirements/bonus/adminer
       dockerfile: Dockerfile
+    image: inception/adminer:v1
 
     networks:
       - inception
@@ -117,6 +122,7 @@ services:
     build:
       context: ./requirements/bonus/redis
       dockerfile: Dockerfile
+    image: inception/redis:v1
 
     networks:
       - inception
@@ -133,6 +139,7 @@ services:
     build:
       context: ./requirements/bonus/irc
       dockerfile: Dockerfile
+    image: inception/irc:v1
     
     ports:
       - 6667:6667
@@ -144,9 +151,12 @@ services:
     build:
       context: ./requirements/bonus/website
       dockerfile: Dockerfile
+    image: inception/website:v1
 
     ports:
       - 8081:8081
+
+    restart: always
 
 volumes:
   db-volume:
