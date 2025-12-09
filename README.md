@@ -53,6 +53,15 @@ Project dependencies
 
 # Project description
 ## Virtual machines vs Docker
+Both are deployment technologies that make your application independent from your computing environment.
+
+Container: A package of software that includes an application's code plus all the libraries and dependencies it needs to run.
+
+Containers run on top of the host OS. Thay share the host's OS kernel, and a container engine manages resources allocation and isolation. The container holds only what the application needs (libraries, dependencies, etc).
+
+Virtural machine: A virtualized copy of a full physical machine - including its own complete operating system, hardware abstractions, and the applications running on it.
+
+VMs rely on a hypervior layer that emulates an entire machine (virtual hardware). Each VM runs its own guest OS - isolated from other VMs and from the host OS.
 
 ## Secrets vs Environment Variables
 
