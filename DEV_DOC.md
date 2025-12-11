@@ -11,7 +11,7 @@ This file must describe how a developer can:
 - Docker, Docker compose
 - `yeonjuki.42.fr` must registered in `/etc/hosts`
 
-## configuretion files
+## configuretion files and secrets
 ```
 # .env template
 MYSQL_PW=

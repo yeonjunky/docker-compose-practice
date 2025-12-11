@@ -39,6 +39,32 @@ To access the website, enter https://yeonjuki.42.fr in your browser.
 And, to access the admin panel, go to https://yeonjuki.42.fr/admin
 
 ## Locate and manage credentials
+All environment variables(and credentials) located in {project_root_directory}/.env file.
+And its template
+```
+# .env template
+MYSQL_PW=
+MYSQL_ROOT_PW=
+MYSQL_DATABASE=
+MYSQL_USER=
+MYSQL_HOST=
+
+WP_VERSION=
+WP_TABLE_PREFIX=
+
+DB_VOLUME=
+WP_VOLUME=
+
+FTP_USER=
+FTP_GRUOP=
+FTP_PASS=
+
+ADMINER_VERSION=
+ADMINER_USER=
+ADMINER_PASSWORD=
+
+REDIS_PASSWORD=
+```
 
 ## Check that the services are running correctly
 1. Enter `make ps` in your terminal and see the STATUS column.
