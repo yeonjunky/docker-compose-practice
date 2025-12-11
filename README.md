@@ -139,23 +139,6 @@ Containers run in an **isolated virtual network** created by Docker.
 - **Security**: External access only through explicitly exposed ports
 - **Flexibility**: Multiple containers can use the same internal port (e.g., port 80) with different host port mappings
 
-**Example:**
-```yaml
-services:
-  web:
-    image: nginx
-    ports:
-      - "8080:80"  # Host port 8080 → Container port 80
-    networks:
-      - my_network
-
-networks:
-  my_network:
-    driver: bridge
-```
-
-Access: `localhost:8080` on host → `port 80` inside container
-
 ### Host Network Mode
 Container **directly shares the host's network stack** with no isolation.
 
