@@ -65,6 +65,166 @@ VMs rely on a hypervior layer that emulates an entire machine (virtual hardware)
 
 ## Secrets vs Environment Variables
 
+### Environment Variables
+Environment variables are key-value pairs passed to containers at runtime using `-e` flag or `environment:` section in compose files.
+
+**Security concerns:**
+- **Plain text exposure**: Values are visible in plain text via `docker inspect` command
+- **Process exposure**: Accessible through `/proc/<pid>/environ` file system
+- **Log leakage**: Can accidentally appear in application logs or error messages
+- **Image exposure**: If hardcoded in Dockerfile, they persist in image layers and can be extracted
+- **No encryption**: Stored and transmitted without encryption
+
+**Appropriate use cases:**
+- Non-sensitive configuration (ports, hostnames, debug flags)
+- Development/testing environments
+- Public configuration values
+
+### Docker Secrets
+Docker Secrets provide encrypted storage for sensitive data in Docker Swarm (or Kubernetes). Secrets are mounted as files in `/run/secrets/` directory inside containers.
+
+**Security advantages:**
+- **Encrypted at rest**: Stored encrypted in Swarm's Raft log
+- **Encrypted in transit**: Transmitted over TLS-encrypted channels between nodes
+- **Memory-only**: Mounted as tmpfs (memory filesystem), never written to disk
+- **Access control**: Only accessible to services explicitly granted permission
+- **No inspect exposure**: Secret values don't appear in `docker inspect` output
+- **Minimal attack surface**: Not exposed through environment variables or process list
+
+**Implementation requirements:**
+- Requires Docker Swarm mode or Kubernetes
+- Application must read secrets from `/run/secrets/<secret_name>` files
+- Slightly more complex setup than environment variables
+
+**Example comparison:**
+
+Using environment variables (insecure):
+```yaml
+services:
+  db:
+    environment:
+      - MYSQL_ROOT_PASSWORD=my_password
+```
+
+Using secrets (secure):
+```yaml
+services:
+  db:
+    secrets:
+      - db_root_password
+
+secrets:
+  db_root_password:
+    file: ./secrets/db_root_password.txt
+```
+
+**Best practice:** Use environment variables for non-sensitive configuration and Docker Secrets for all sensitive data (passwords, API keys, certificates) in production environments.
+
 ## Docker Network vs Host Network
 
+Docker Network (Bridge) and Host Network represent two fundamentally different approaches to how containers connect to networks.
+
+### Docker Network (Bridge Mode - Default)
+Containers run in an **isolated virtual network** created by Docker.
+
+**How it works:**
+- Docker creates a virtual bridge network (default: `docker0`)
+- Each container receives a unique virtual IP address (e.g., 172.17.0.x)
+- Containers communicate with each other using container names or IPs
+- Communication with host and external networks happens through NAT (Network Address Translation)
+
+**Key characteristics:**
+- **Network isolation**: Containers run in their own network namespace
+- **Port mapping required**: Use `-p 8080:80` to map host port 8080 to container port 80
+- **Security**: External access only through explicitly exposed ports
+- **Flexibility**: Multiple containers can use the same internal port (e.g., port 80) with different host port mappings
+
+**Example:**
+```yaml
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"  # Host port 8080 → Container port 80
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
+```
+
+Access: `localhost:8080` on host → `port 80` inside container
+
+### Host Network Mode
+Container **directly shares the host's network stack** with no isolation.
+
+**How it works:**
+- Container uses the same network namespace as the host
+- No virtual network or NAT layer
+- Container's network interfaces are identical to the host's
+
+**Key characteristics:**
+- **No network isolation**: Container accesses all host network interfaces
+- **No port mapping needed**: Container port 80 directly uses host port 80
+- **Better performance**: No NAT overhead
+- **Port conflicts**: Multiple containers cannot use the same port
+- **Security risk**: Container has direct access to host network
+
+**Example:**
+```yaml
+services:
+  web:
+    image: nginx
+    network_mode: host
+```
+
+Access: `localhost:80` on both host and container (same)
+
+### Comparison Table
+
+| Aspect | Docker Network (Bridge) | Host Network |
+|--------|------------------------|--------------|
+| **Network isolation** | Yes (virtual network) | No (shares host) |
+| **IP address** | Unique container IP | Uses host IP |
+| **Port mapping** | Required (`-p` flag) | Not needed |
+| **Port conflicts** | Avoided (isolated) | Possible |
+| **Performance** | Slight NAT overhead | Optimal (no NAT) |
+| **Security** | More secure (isolated) | Less secure (exposed) |
+| **Container-to-container** | Via names/IPs | Via localhost |
+| **Use case** | General applications | Specific performance needs |
+
+### When to Use Each
+
+**Use Docker Network (Recommended):**
+- Web applications and microservices
+- Running multiple containers on the same host
+- When security and isolation are important
+- When you need flexible port management
+
+**Use Host Network (Special Cases):**
+- Extreme network performance requirements (e.g., high-performance packet processing)
+- Container needs access to all host network interfaces
+- Legacy applications requiring localhost binding
+- Network monitoring/debugging tools
+
+**Best practice:** Use Docker's default bridge network unless you have a specific reason to use host networking. Bridge mode provides better security and flexibility.
+
 ## Docker Volumes vs Bind Mounts
+Docker provides two primary mechanisms for persisting data generated and by Docker containers: volumes and bind mounts.
+
+Both allow data to be stored outside the container's writable layer, ensuring data persistance even if the container is removed.
+
+However, they differ in how they manage and access the data.
+
+Volumes
+- Docker managed
+- Offering more features and protability
+- Stored in Docker's designed area.
+- More secure as they isolate container data from the host's filesystem
+
+Bind Mounts
+- User managed
+- Providing direct control over host files
+- Can be located anywhere on the host's filesystem
+- Can expose host files, requiring careful consideration of permissions.
