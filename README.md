@@ -1,4 +1,4 @@
-# *This project has been created as part of the 42 curriculum by yeonjuki*
+
 
 # Description
 This project consists of having you set up a small infrastructure composed of different services under specific rules. The whole project has to be done in a virtual machine. You have to use docker compose.
